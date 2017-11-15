@@ -1,4 +1,4 @@
-Questo database contiene 3307 testi in formato txt già suddivisi (***) in 19 categorie:
+Il database contiene 3307 testi in formato txt giÃ  suddivisi (***) in 19 categorie:
 
 1 AI Overview
 2 Agents
@@ -20,17 +20,20 @@ Questo database contiene 3307 testi in formato txt già suddivisi (***) in 19 cat
 18 Systems
 19 Vision
 
-(***) I testi da 6397 a 6498 sono "NOT RELATED". Quindi vi sono 3206 testi utilizzabili già categorizzati.
+(***) I testi da 6397 a 6498 sono "NOT RELATED". Quindi vi sono 3206 testi utilizzabili giÃ  categorizzati.
 
 
 
 //---Si faccia riferimento al file "listing" per la suddivisione---\\
 
 
+**********************************************************************************
 
-Quote-> http://cse3521.artifice.cc/text-classification.html
+LINK DATABASE-> http://cse3521.artifice.cc/text-classification.html
+
+**********************************************************************************
 
 NOTE:
-Pur essendo stati divisi in sotto-categorie, la maggiorparte di questi può essere inserita entro una macro-classe scientifica, con alcune accortezze.
+Pur essendo stati divisi in sotto-categorie, la maggiorparte di questi puÃ² essere inserita entro una macro-classe scientifica, con alcune accortezze.
 
 
