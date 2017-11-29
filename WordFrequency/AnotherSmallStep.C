@@ -11,6 +11,7 @@
 #include <ctype.h> 
 
 //static int fileLength;
+static int fileLength = 0;
 static int currentTextWordCount;
 static int textsCount = 0;
 static int TEXTGROUPS = 2;//Il numero di tipologie testuali è inizializzato di default a 2.
@@ -58,7 +59,7 @@ std::vector<std::string> split(const std::string &txt, const std::string &del)
 double inlineMean (double oldMean, double newDatum)
 	{
 		double offset_to_newMean = (newDatum-oldMean)/double(textsCount);
-		double newMean =+ offset_to_newMean;
+		double newMean = oldMean + offset_to_newMean;
 		return newMean;
 	}
 
@@ -76,25 +77,37 @@ double inlineVariance(double oldVariance, double oldMean, double newDatum)
 
 std::string updateVocabulary(std::map<std::string, double*> &vocabulary, std::map<std::string, int> &newData, int textType)
 	{	
-		std::map<std::string, double*>::iterator index;
+		std::map<std::string, double*>::iterator dIndex;
+		std::map<std::string, int>::iterator iIndex;
+
 
 		for (std::map<std::string,int>::iterator it=newData.begin(); it!= newData.end(); it++)
 		{
 
-		index = vocabulary.find(it->first);
+		dIndex = vocabulary.find(it->first);
 
-		if (index == vocabulary.end())
+		if (dIndex == vocabulary.end())
 			{
 				vocabulary.insert(std::pair<std::string, double*>(it->first, new double[2*TEXTGROUPS]));
 				
 				for (int i = 0; i< 2*TEXTGROUPS; i++)
 				vocabulary.find(it->first)->second[i]=0;
 			}
-		index = vocabulary.find(it->first);
-		index->second[1+2*textType] = inlineVariance (index->second[1+2*textType], index->second[2*textType], double(it->second)/double(currentTextWordCount));
+		dIndex = vocabulary.find(it->first);
+		dIndex->second[1+2*textType] = inlineVariance (dIndex->second[1+2*textType], dIndex->second[2*textType], double(it->second)/double(currentTextWordCount));
 
-		index->second[2*textType] = inlineMean (index->second[2*textType], double(it->second)/double(currentTextWordCount));
+		dIndex->second[2*textType] = inlineMean (dIndex->second[2*textType], double(it->second)/double(currentTextWordCount));
 		}
+
+		for(std::map<std::string,double*>::iterator it=vocabulary.begin(); it!= vocabulary.end(); it++)
+			{
+				if(newData.find(it->first) == newData.end())
+				{   
+					it->second[1+2*textType] = inlineVariance (it->second[1+2*textType], it->second[2*textType], 0);
+					it->second[2*textType] = inlineMean (it->second[2*textType], 0);
+				};
+			}
+
 		return "E' terminato l'aggiornamento.\n\n";
 	}
 
@@ -127,13 +140,15 @@ double computeExponent(std::map<std::string, double*> vocab, std::map<std::strin
 int main(int argc, char * argv[])
 	{
 	char* buffer;
+	char* folder = argv[1];
 	int streamPosition;
 	std::string parameterisedFileName;
 	//Strings
 	std::string text;//Il testo viene caricato qui.
 	std::string s_word;
 	std::string singleWord;
-	std::string delimiters=" \n\f\e\r\t\a\v\b,;.:-_'?!*+(){}[]/©—";
+	std::string delimiters=" \n\f\e\r\t\a\v\b,;.:-_'?!*+^(){Œ}[]/©—£&Œ1234567890";
+	delimiters+='"';
 	std::wstring word;
 	//Inizializziamo l'oggetto english stemmer.
 	stemming::english_stem<> StemEnglish;
@@ -145,17 +160,17 @@ int main(int argc, char * argv[])
 
 while (true)
 {	
-	textCount++;
+	textsCount++;
 	currentTextFrequencies.clear();//Puliamo il vocabolario locale.
 	parameterisedFileName.clear();
-	parameterisedFileName.append(argv[1]);
+	parameterisedFileName.append(folder);
 	parameterisedFileName.append("/");
-	parameterisedFileName.append(std::to_string(fileIndex));
+	parameterisedFileName.append(std::to_string(textsCount-1));
 	parameterisedFileName.append(".txt");
-	//std::cout<<parameterisedFileName<<std::endl;
+	std::cout<<std::endl<<parameterisedFileName<<std::endl;
 	std::ifstream inputf(parameterisedFileName.data());
 	//Controlliamo che il un file così denominato esista; in caso negativo usciamo dal ciclo
-	if(inputf.fail()) break;
+	if(inputf.fail()) {std::cout<<"\n\nFILE NOT FOUND!!!\n\n"<<std::flush; break;}
 	//Misuriamo la lunghezza del file.
 	inputf.seekg(0, std::ios::end);
 	fileLength = inputf.tellg();
@@ -175,7 +190,7 @@ while (true)
 
 	for(int j = 0; j<tokenisedText.size(); j++)
 	{	
-		textsCount++;
+		currentTextWordCount++;
 		stringToWString(word, tokenisedText[j]);
 		StemEnglish(word);
 		wstringToString(singleWord, word);
