@@ -10,7 +10,7 @@
 #include <cmath>
 #include <ctype.h> 
 
-static int fileLength;
+//static int fileLength;
 static int currentTextWordCount;
 static int textsCount = 0;
 static int TEXTGROUPS = 2;//Il numero di tipologie testuali è inizializzato di default a 2.
@@ -143,8 +143,9 @@ int main(int argc, char * argv[])
 	std::map<std::string, int> currentTextFrequencies;
 	std::map<std::string, double*> vocabulary;
 
-for (int fileIndex = 0; fileIndex<2; ++fileIndex)
+while (true)
 {	
+	textCount++;
 	currentTextFrequencies.clear();//Puliamo il vocabolario locale.
 	parameterisedFileName.clear();
 	parameterisedFileName.append(argv[1]);
@@ -153,7 +154,8 @@ for (int fileIndex = 0; fileIndex<2; ++fileIndex)
 	parameterisedFileName.append(".txt");
 	//std::cout<<parameterisedFileName<<std::endl;
 	std::ifstream inputf(parameterisedFileName.data());
-	
+	//Controlliamo che il un file così denominato esista; in caso negativo usciamo dal ciclo
+	if(inputf.fail()) break;
 	//Misuriamo la lunghezza del file.
 	inputf.seekg(0, std::ios::end);
 	fileLength = inputf.tellg();
