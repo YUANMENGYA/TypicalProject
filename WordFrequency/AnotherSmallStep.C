@@ -78,8 +78,6 @@ double inlineVariance(double oldVariance, double oldMean, double newDatum)
 std::string updateVocabulary(std::map<std::string, double*> &vocabulary, std::map<std::string, int> &newData, int textType)
 	{	
 		std::map<std::string, double*>::iterator dIndex;
-		std::map<std::string, int>::iterator iIndex;
-
 
 		for (std::map<std::string,int>::iterator it=newData.begin(); it!= newData.end(); it++)
 		{
