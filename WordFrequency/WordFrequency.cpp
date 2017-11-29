@@ -2,12 +2,13 @@
 #include<fstream>
 #include<sstream>
 #include<string>
-#include<set>
+#include<map>
 #include<iterator>
 
 
 using namespace std;
 static int fileLength;
+static int TEXTGROUPS=2;
 
 char* deletePunctuation (char* text)
 
@@ -21,30 +22,6 @@ char* deletePunctuation (char* text)
     return result;
   }
 
-class word
-{
-  //Attributes
-    string fWord;
-    int fOccurrences;
-  
-  public:
-  //Getters
-    string getWord() {return fWord;}
-    int getOccurrences() {return fOccurrences;}
-    //Setters
-    void setWord(string newName) {fWord = newName;}
-    void setOccurrences(int newOccurrences) {fOccurrences = newOccurrences;}
-    void increaseOccurrences() {fOccurrences++;}
-    //Constructors
-    word(string newWord, int inOccurrences):fWord(newWord),fOccurrences(inOccurrences){};
-    word():fWord("\0"), fOccurrences(0){};
-    //Destructor
-    ~word()
-  {
-    fWord = "\0";
-    fOccurrences = 0;
-  }
-};
 
 int main (int argc, char* argv[])
 {
@@ -59,21 +36,19 @@ int main (int argc, char* argv[])
 
   int streamPosition = 0;
 
-  set<word> vocabulary;
-
   //Tentiamo di aprire data, se non esiste lo creiamo, aprendo uno stream in output e chiudendolo contestualmente.
-  data.open("FrequencyDatabase.txt", ios::in);
+  data.open("FrequencyDatabase.csv", ios::in);
   if (data.fail())
   {
     data.clear();
     data.close();
-    data.open("FrequencyDatabase.txt", ios::out);
+    data.open("FrequencyDatabase.csv", ios::out);
   }
 
   //Apriamo lo stream in lettura/scrittura
-  data.open("FrequencyDatabase.txt", ios::in|ios::out);
+  data.open("FrequencyDatabase.csv", ios::in|ios::out);
+  //Leggiamo la prima riga, che contiene il numero di gruppi di testi e il numero di parole lette.
   
-
 
   //Stabiliamo quanto è lungo il file, e salviamo tale lunghezza in fileLength.
   fileInput.seekg(0, ios::end);
