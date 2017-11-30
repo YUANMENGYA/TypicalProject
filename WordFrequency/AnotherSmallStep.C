@@ -220,6 +220,6 @@ while (true)
 	std::cout<< '\n';
 	}
 
-	std::cout<<pow(2.71828,-computeExponent(vocabulary, currentTextFrequencies, 0))<<std::endl;
+	std::cout<<std::endl<<vocabulary.size()<<std::endl;
 	return 0;
 }
