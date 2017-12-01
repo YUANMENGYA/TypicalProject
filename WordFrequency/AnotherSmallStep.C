@@ -197,7 +197,7 @@ while (true)
 	}
 
 	updateVocabulary(vocabulary, currentTextFrequencies, 0);
-
+/*
 	std::cout<<"\n";
 	std::cout<<"WORD ROOTS COUNT FOR FILE: "<<parameterisedFileName<<"\n\n";
 	std::cout<<"WORD ROOT\tCOUNTS\t\tFREQUENCY\n";
@@ -205,6 +205,7 @@ while (true)
 	
 	for (std::map<std::string,int>::iterator it=currentTextFrequencies.begin(); it!=currentTextFrequencies.end(); ++it)
 	std::cout << std::setw(10)<< it->first << std::setw(10) <<it->second<<std::setw(20)<<double(it->second)/double(currentTextWordCount)<<"\n";
+*/
 }
 	
 	std::cout<<"\n\n\n";
@@ -221,5 +222,7 @@ while (true)
 	}
 
 	std::cout<<std::endl<<vocabulary.size()<<std::endl;
+	std::cout<<std::endl<<computeGaussianExponent(vocabulary, currentTextFrequencies, 0)<<std::endl;
+	std::cout<<std::endl<<exp(computeGaussianExponent(vocabulary, currentTextFrequencies, 0))<<std::endl;
 	return 0;
 }
