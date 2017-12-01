@@ -92,8 +92,8 @@ std::string updateVocabulary(std::map<std::string, double*> &vocabulary, std::ma
 				vocabulary.find(it->first)->second[i]=0;
 			}
 		dIndex = vocabulary.find(it->first);
+		
 		dIndex->second[1+2*textType] = inlineVariance (dIndex->second[1+2*textType], dIndex->second[2*textType], double(it->second)/double(currentTextWordCount));
-
 		dIndex->second[2*textType] = inlineMean (dIndex->second[2*textType], double(it->second)/double(currentTextWordCount));
 		}
 
