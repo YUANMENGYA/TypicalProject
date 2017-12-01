@@ -121,15 +121,15 @@ char* deletePunctuation (char* text)//IN MEMORIAM
 		return result;
 	}
 
-double computeExponent(std::map<std::string, double*> vocab, std::map<std::string, int> datum, int referenceTextType)
+double computeGaussianExponent(std::map<std::string, double*> vocab, std::map<std::string, int> datum, int referenceTextType)
 	{	
 		double result=0;
 
-		for(std::map<std::string, int>::iterator i = datum.begin(); i != datum.end(); ++i)
+		for(std::map<std::string, double*>::iterator i = vocab.begin(); i != vocab.end(); ++i)
 		{
-			std::map<std::string, double*>::iterator itr = vocab.find(i->first);
-			if(itr == vocab.end()) result += pow((double(i->second)/double(currentTextWordCount)), 2);
-			if(itr != vocab.end()) result += pow((double(i->second)/double(currentTextWordCount))-(itr->second[2*referenceTextType])/itr->second[1+2*referenceTextType], 2);
+			std::map<std::string, int>::iterator itr = datum.find(i->first);
+			if(itr == datum.end()) result -= (-(i->second[2*referenceTextType])/i->second[1+2*referenceTextType])*(-(i->second[2*referenceTextType])/i->second[1+2*referenceTextType]);
+			if(itr != datum.end()) result -= (((double(itr->second)/double(currentTextWordCount))-(i->second[2*referenceTextType]))/(i->second[1+2*referenceTextType]))*(((double(itr->second)/double(currentTextWordCount))-(i->second[2*referenceTextType]))/(i->second[1+2*referenceTextType]));
 		}
 
 		return result;
