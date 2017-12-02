@@ -135,6 +135,21 @@ double computeGaussianExponent(std::map<std::string, double*> vocab, std::map<st
 		return result;
 	}
 
+int classify(std::map<std::string, double*> vocab, std::map<std::string, int> text)
+	{
+		int returnType;
+		double exponentStore = -10e99;
+
+		for (int i = 0; i != TEXTGROUPS; ++i)
+		if (computeGaussianExponent(vocab, text, i) > exponentStore)
+			{
+				returnType = i;
+				exponentStore = computeGaussianExponent(vocab, text, i);
+			}
+
+		return returnType;
+	}
+
 int main(int argc, char * argv[])
 	{
 	char* buffer;
@@ -223,6 +238,6 @@ while (true)
 
 	std::cout<<std::endl<<vocabulary.size()<<std::endl;
 	std::cout<<std::endl<<computeGaussianExponent(vocabulary, currentTextFrequencies, 0)<<std::endl;
-	std::cout<<std::endl<<exp(computeGaussianExponent(vocabulary, currentTextFrequencies, 0))<<std::endl;
+	std::cout<<std::endl<<classify(vocabulary, currentTextFrequencies)<<std::endl;
 	return 0;
 }
