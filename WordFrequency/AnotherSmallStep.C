@@ -8,6 +8,7 @@
 #include <iterator>
 #include <map>
 #include <cmath>
+#include <ctime.h>
 #include <ctype.h> 
 
 //static int fileLength;
@@ -160,7 +161,7 @@ int main(int argc, char * argv[])
 	std::string text;//Il testo viene caricato qui.
 	std::string s_word;
 	std::string singleWord;
-	std::string delimiters=" \n\f\e\r\t\a\v\b,;.:-_'?!*+^(){Œ}[]/©—£&Œ1234567890";
+	std::string delimiters=" \n\f\e\r\t\a\v\b,;.:-_'?!*+^~(){Œ}[]/©—£%$><=@&Œ1234567890";
 	delimiters+='"';
 	std::wstring word;
 	//Inizializziamo l'oggetto english stemmer.
@@ -171,6 +172,8 @@ int main(int argc, char * argv[])
 	std::map<std::string, int> currentTextFrequencies;
 	std::map<std::string, double*> vocabulary;
 
+	time_t stopwatch = time();
+
 while (true)
 {	
 	textsCount++;
@@ -180,10 +183,10 @@ while (true)
 	parameterisedFileName.append("/");
 	parameterisedFileName.append(std::to_string(textsCount-1));
 	parameterisedFileName.append(".txt");
-	std::cout<<std::endl<<parameterisedFileName<<std::endl;
+	std::cout<<std::endl<<"Reading data from :"<<parameterisedFileName<<std::endl;
 	std::ifstream inputf(parameterisedFileName.data());
 	//Controlliamo che il un file così denominato esista; in caso negativo usciamo dal ciclo
-	if(inputf.fail()) {std::cout<<"\n\nFILE NOT FOUND!!!\n\n"<<std::flush; break;}
+	if(inputf.fail()) {std::cout<<"\n\nFILE "<<parameterisedFileName<<" NOT FOUND! BREAKING READING CYCLE!\n\n"<<std::flush; break;}
 	//Misuriamo la lunghezza del file.
 	inputf.seekg(0, std::ios::end);
 	fileLength = inputf.tellg();
@@ -212,6 +215,7 @@ while (true)
 	}
 
 	updateVocabulary(vocabulary, currentTextFrequencies, 0);
+
 /*
 	std::cout<<"\n";
 	std::cout<<"WORD ROOTS COUNT FOR FILE: "<<parameterisedFileName<<"\n\n";
@@ -238,6 +242,7 @@ while (true)
 
 	std::cout<<std::endl<<vocabulary.size()<<std::endl;
 	std::cout<<std::endl<<computeGaussianExponent(vocabulary, currentTextFrequencies, 0)<<std::endl;
-	std::cout<<std::endl<<classify(vocabulary, currentTextFrequencies)<<std::endl;
+	std::cout<<std::endl<<classify(vocabulary, currentTextFrequencies)<<std::endl<<std::endl;
+	std::cout<<std::endl<<"Current run lasted: "<<(time()-stopwatch)/60<<" min "<<(time()-stopwatch)%60<<std::endl;
 	return 0;
 }
