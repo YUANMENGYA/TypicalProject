@@ -4,6 +4,7 @@
 #include "TCanvas.h"
 #include "TH1D.h"
 #include "TGraph.h"
+#include "TAxis.h"
 
 using namespace std;
 
@@ -55,10 +56,13 @@ void plot()
   
        //Graph & cosmetics
         TGraph* gr = new TGraph(n,x,y);
-	TCanvas *c1 = new TCanvas("c1", "PlotCanvas", 200, 10, 600, 400);
+	TCanvas *c1 = new TCanvas("c1", "Rank-Frequency Distribution", 200, 10, 600, 400);
 
 	c1->cd();
-        gr->SetLineColor(kRed);
+    gr->SetLineColor(kRed);
+    gr->SetTitle("Rank-Frequency Distribution");
+    gr->GetYaxis()->SetTitle("Frequency");
+    gr->GetXaxis()->SetTitle("Rank");
 	gr->Draw("AC");
 }
 
