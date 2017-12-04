@@ -60,8 +60,5 @@ void plot()
 	c1->cd();
         gr->SetLineColor(kRed);
 	gr->Draw("AC");
-	c1->Print("PlotMacro.gif");
-	c1->Print("PlotMacro.C");
-
 }
 
