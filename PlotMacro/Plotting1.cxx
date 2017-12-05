@@ -29,7 +29,8 @@ void fill_vector(vector < pair<string, double> > &v) {
 }
 
 
-void plot()
+//void plot()
+int main()
 
 {
 	vector <pair <string, double> > v;
@@ -55,7 +56,7 @@ void plot()
 
   
        //Graph & cosmetics
-        TGraph* gr = new TGraph(n,x,y);
+    TGraph* gr = new TGraph(n,x,y);
 	TCanvas *c1 = new TCanvas("c1", "Rank-Frequency Distribution", 200, 10, 600, 400);
 
 	c1->cd();
@@ -64,5 +65,7 @@ void plot()
     gr->GetYaxis()->SetTitle("Frequency");
     gr->GetXaxis()->SetTitle("Rank");
 	gr->Draw("AC");
+	c1->Show();
+	c1->Print("Rank-Frequency.pdf");
 }
 
