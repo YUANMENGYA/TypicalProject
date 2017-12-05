@@ -29,8 +29,8 @@ void fill_vector(vector < pair<string, double> > &v) {
 }
 
 
-//void plot()
-int main()
+void plot()
+
 
 {
 	vector <pair <string, double> > v;
