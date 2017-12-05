@@ -8,7 +8,7 @@
 #include <iterator>
 #include <map>
 #include <cmath>
-#include <ctime.h>
+#include <time.h>
 #include <ctype.h> 
 
 //static int fileLength;
@@ -45,6 +45,7 @@ void stringToLower (std::string &mixedCaseString)
 
 std::vector<std::string> split(const std::string &txt, const std::string &del)
 {
+ std::clog<<"split function has been called.\n\n";
  std::vector<std::string> token;
  std::size_t pos = txt.find_first_of(del), start = 0, end = txt.size();
  while(pos != std::string::npos)
@@ -54,6 +55,7 @@ std::vector<std::string> split(const std::string &txt, const std::string &del)
   pos = txt.substr(start, end).find_first_of(del);
  }
  if(start != end) token.push_back(txt.substr(start, pos));
+ std::clog<<"split function returned.\n\n";
  return token;
 }
 
@@ -161,7 +163,7 @@ int main(int argc, char * argv[])
 	std::string text;//Il testo viene caricato qui.
 	std::string s_word;
 	std::string singleWord;
-	std::string delimiters=" \n\f\e\r\t\a\v\b,;.:-_'?!*+^~(){Œ}[]/©—£%$><=@&Œ1234567890";
+	std::string delimiters=" \n\f\e\r\t\a\v\b,;.:-_'?!*+^~(){Œ#}[]/©—£%$><=@&Œ1234567890";
 	delimiters+='"';
 	std::wstring word;
 	//Inizializziamo l'oggetto english stemmer.
@@ -172,7 +174,7 @@ int main(int argc, char * argv[])
 	std::map<std::string, int> currentTextFrequencies;
 	std::map<std::string, double*> vocabulary;
 
-	time_t stopwatch = time();
+	time_t stopwatch = time(nullptr);
 
 while (true)
 {	
@@ -202,6 +204,7 @@ while (true)
 	stringToLower(text);
 	//E spezzettiamo il testo.
 	tokenisedText = split(text, delimiters);
+	std::cout<<std::endl<<"Tokenisation phase lasted: "<<(time(nullptr)-stopwatch)/60<<" min "<<(time(nullptr)-stopwatch)%60<<" s."<<std::endl;
 	currentTextWordCount=0;//Azzeriamo il contatore delle parole lette.
 
 	for(int j = 0; j<tokenisedText.size(); j++)
@@ -243,6 +246,6 @@ while (true)
 	std::cout<<std::endl<<vocabulary.size()<<std::endl;
 	std::cout<<std::endl<<computeGaussianExponent(vocabulary, currentTextFrequencies, 0)<<std::endl;
 	std::cout<<std::endl<<classify(vocabulary, currentTextFrequencies)<<std::endl<<std::endl;
-	std::cout<<std::endl<<"Current run lasted: "<<(time()-stopwatch)/60<<" min "<<(time()-stopwatch)%60<<std::endl;
+	std::cout<<std::endl<<"Current run lasted: "<<(time(nullptr)-stopwatch)/60<<" min "<<(time(nullptr)-stopwatch)%60<<" s."<<std::endl;
 	return 0;
 }
