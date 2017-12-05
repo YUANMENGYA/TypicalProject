@@ -12,7 +12,7 @@ bool compare(const std::pair<std::string, double>  &word_1, const std::pair<std:
 	}
 
 
-std::vector<std::pair<std::string, double>> sortVector (std::map<std::string, double> vocabulary)
+std::vector<std::pair<std::string, double>> sortedVector (std::map<std::string, double> vocabulary)
 	{
 		std::vector<std::pair<std::string, double> > graphVector;
 		copy(vocabulary.begin(), vocabulary.end(), back_inserter(graphVector));
